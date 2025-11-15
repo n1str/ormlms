@@ -81,6 +81,7 @@ class CourseServiceTest {
 
     @Test
     void createCourse_TeacherNotFound() {
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> courseService.createCourse("Java Basics", "Desc", 1L, 1L, 40, LocalDate.now(), Set.of()))
@@ -109,20 +110,21 @@ class CourseServiceTest {
 
     @Test
     void deleteCourse_Success() {
-        when(courseRepository.existsById(1L)).thenReturn(true);
-        doNothing().when(courseRepository).deleteById(1L);
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
+        doNothing().when(courseRepository).delete(course);
 
         courseService.deleteCourse(1L);
 
-        verify(courseRepository).deleteById(1L);
+        verify(courseRepository).delete(course);
     }
 
     @Test
     void deleteCourse_NotFound() {
-        when(courseRepository.existsById(999L)).thenReturn(false);
+        when(courseRepository.findById(999L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> courseService.deleteCourse(999L))
-                .isInstanceOf(NotFoundException.class);
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Course not found");
     }
 }
 

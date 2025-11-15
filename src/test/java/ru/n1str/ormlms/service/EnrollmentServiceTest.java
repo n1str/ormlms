@@ -95,7 +95,7 @@ class EnrollmentServiceTest {
     void enrollStudent_StudentNotFound() {
         when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> enrollmentService.enrollStudent(999L, 1L))
+        assertThatThrownBy(() -> enrollmentService.enrollStudent(1L, 999L))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessageContaining("Student not found");
     }
