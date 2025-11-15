@@ -70,7 +70,7 @@ class SubmissionServiceTest {
     void submitAssignment_Success() {
         when(assignmentRepository.findById(1L)).thenReturn(Optional.of(assignment));
         when(userRepository.findById(1L)).thenReturn(Optional.of(student));
-        when(submissionRepository.findByAssignmentIdAndStudentId(1L, 1L)).thenReturn(Optional.empty());
+        when(submissionRepository.findByAssignmentAndStudent(assignment, student)).thenReturn(Optional.empty());
         when(submissionRepository.save(any(Submission.class))).thenReturn(submission);
 
         Submission result = submissionService.submitAssignment(1L, 1L, "My solution");
@@ -84,7 +84,7 @@ class SubmissionServiceTest {
     void submitAssignment_AlreadySubmitted() {
         when(assignmentRepository.findById(1L)).thenReturn(Optional.of(assignment));
         when(userRepository.findById(1L)).thenReturn(Optional.of(student));
-        when(submissionRepository.findByAssignmentIdAndStudentId(1L, 1L)).thenReturn(Optional.of(submission));
+        when(submissionRepository.findByAssignmentAndStudent(assignment, student)).thenReturn(Optional.of(submission));
 
         assertThatThrownBy(() -> submissionService.submitAssignment(1L, 1L, "Another solution"))
                 .isInstanceOf(BusinessException.class)

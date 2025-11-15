@@ -61,7 +61,7 @@ class EnrollmentServiceTest {
                 .id(1L)
                 .student(student)
                 .course(course)
-                .enrollDate(LocalDate.now())
+                .enrolledAt(LocalDate.now())
                 .status(EnrollmentStatus.ACTIVE)
                 .build();
     }
@@ -70,7 +70,7 @@ class EnrollmentServiceTest {
     void enrollStudent_Success() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(student));
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(enrollmentRepository.findByStudentIdAndCourseId(1L, 1L)).thenReturn(Optional.empty());
+        when(enrollmentRepository.findByStudentAndCourse(student, course)).thenReturn(Optional.empty());
         when(enrollmentRepository.save(any(Enrollment.class))).thenReturn(enrollment);
 
         Enrollment result = enrollmentService.enrollStudent(1L, 1L);
@@ -84,7 +84,7 @@ class EnrollmentServiceTest {
     void enrollStudent_AlreadyEnrolled() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(student));
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(enrollmentRepository.findByStudentIdAndCourseId(1L, 1L)).thenReturn(Optional.of(enrollment));
+        when(enrollmentRepository.findByStudentAndCourse(student, course)).thenReturn(Optional.of(enrollment));
 
         assertThatThrownBy(() -> enrollmentService.enrollStudent(1L, 1L))
                 .isInstanceOf(BusinessException.class)
@@ -102,7 +102,9 @@ class EnrollmentServiceTest {
 
     @Test
     void unenrollStudent_Success() {
-        when(enrollmentRepository.findByStudentIdAndCourseId(1L, 1L)).thenReturn(Optional.of(enrollment));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
+        when(enrollmentRepository.findByStudentAndCourse(student, course)).thenReturn(Optional.of(enrollment));
         doNothing().when(enrollmentRepository).delete(enrollment);
 
         enrollmentService.unenrollStudent(1L, 1L);
@@ -112,7 +114,9 @@ class EnrollmentServiceTest {
 
     @Test
     void unenrollStudent_NotEnrolled() {
-        when(enrollmentRepository.findByStudentIdAndCourseId(1L, 1L)).thenReturn(Optional.empty());
+        when(userRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
+        when(enrollmentRepository.findByStudentAndCourse(student, course)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> enrollmentService.unenrollStudent(1L, 1L))
                 .isInstanceOf(NotFoundException.class)

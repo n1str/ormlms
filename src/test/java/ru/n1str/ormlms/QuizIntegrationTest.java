@@ -1,6 +1,11 @@
 package ru.n1str.ormlms;
 
-import ru.n1str.ormlms.entity.*;
+import ru.n1str.ormlms.entity.Category;
+import ru.n1str.ormlms.entity.Course;
+import ru.n1str.ormlms.entity.Module;
+import ru.n1str.ormlms.entity.Quiz;
+import ru.n1str.ormlms.entity.QuizSubmission;
+import ru.n1str.ormlms.entity.User;
 import ru.n1str.ormlms.model.QuestionType;
 import ru.n1str.ormlms.model.UserRole;
 import ru.n1str.ormlms.repository.*;
