@@ -1,6 +1,11 @@
 package ru.n1str.ormlms.service;
 
-import ru.n1str.ormlms.entity.*;
+import ru.n1str.ormlms.entity.AnswerOption;
+import ru.n1str.ormlms.entity.Module;
+import ru.n1str.ormlms.entity.Question;
+import ru.n1str.ormlms.entity.Quiz;
+import ru.n1str.ormlms.entity.QuizSubmission;
+import ru.n1str.ormlms.entity.User;
 import ru.n1str.ormlms.exception.BusinessException;
 import ru.n1str.ormlms.exception.NotFoundException;
 import ru.n1str.ormlms.model.QuestionType;
