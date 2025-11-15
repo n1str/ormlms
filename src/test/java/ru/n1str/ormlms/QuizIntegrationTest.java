@@ -14,6 +14,7 @@ import ru.n1str.ormlms.model.UserRole;
 import ru.n1str.ormlms.repository.*;
 import ru.n1str.ormlms.service.CourseService;
 import ru.n1str.ormlms.service.QuizService;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ class QuizIntegrationTest {
     private QuizService quizService;
     @Autowired
     private QuizSubmissionRepository quizSubmissionRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     @Transactional
@@ -79,6 +82,9 @@ class QuizIntegrationTest {
 
         AnswerOption correct = quizService.addAnswerOption(q1.getId(), "Java Persistence API", true);
         quizService.addAnswerOption(q1.getId(), "Java Platform API", false);
+
+        entityManager.flush();
+        entityManager.clear();
 
         quizService.takeQuiz(quiz.getId(), student.getId(), Map.of(q1.getId(), List.of(correct.getId())));
 
