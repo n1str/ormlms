@@ -1,8 +1,11 @@
 package ru.n1str.ormlms;
 
+import ru.n1str.ormlms.entity.AnswerOption;
 import ru.n1str.ormlms.entity.Category;
 import ru.n1str.ormlms.entity.Course;
+import ru.n1str.ormlms.entity.Lesson;
 import ru.n1str.ormlms.entity.Module;
+import ru.n1str.ormlms.entity.Question;
 import ru.n1str.ormlms.entity.Quiz;
 import ru.n1str.ormlms.entity.QuizSubmission;
 import ru.n1str.ormlms.entity.User;
