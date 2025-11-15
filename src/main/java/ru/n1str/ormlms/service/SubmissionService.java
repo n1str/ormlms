@@ -50,7 +50,7 @@ public class SubmissionService {
                 .orElseThrow(() -> new NotFoundException("Submission not found: " + submissionId));
         submission.setScore(score);
         submission.setFeedback(feedback);
-        return submission;
+        return submissionRepository.save(submission);
     }
 
     public List<Submission> getForAssignment(Long assignmentId) {
