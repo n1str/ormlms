@@ -22,6 +22,6 @@ spring:
 logging:
   level:
     root: WARN
-    com.example.ormlms: INFO
+    ru.n1str.ormlms: INFO
     org.hibernate.SQL: WARN
 
